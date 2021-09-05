@@ -11,7 +11,6 @@ namespace AnimalMatchingGame
 {
     public class Game : INotifyPropertyChanged
     {
-        public int Level { get; private set; } = 1;
         public int RowNumber { get; set; } = 4;
         public List<Animal> Animals { get; private set; }
         public int MatchesFound { get; set; } = 0;
@@ -81,18 +80,14 @@ namespace AnimalMatchingGame
 
         public void NextLevel()
         {
-            Level++;
             RowNumber++;
             if (RowNumber > 8)
-                NewGame();
-            GameOver = false;
-            MatchesFound = 0;
-            OnProrertyChanged("MatchesFound");
-            Animals = SetUpGame.CreateAnimalPairs(RowNumber);
+                RowNumber = 4;
+            NewGame(RowNumber);        
         } 
-        public void NewGame()
+        public void NewGame(int n)
         {
-            RowNumber = 4;
+            RowNumber = n;
             Animals = SetUpGame.CreateAnimalPairs(RowNumber);
             GameOver = false;
             MatchesFound = 0;

@@ -68,14 +68,12 @@ namespace AnimalMachingGameTests
         public void TestNextLevel()
         {
             Game game = new Game();
-            game.NextLevel();
-            Assert.AreEqual(2, game.Level);
+            game.NextLevel();          
             Assert.AreEqual(5, game.RowNumber);
             Assert.AreEqual(25, game.Animals.Count);
 
             game.GameOver = true;
-            game.NextLevel();
-            Assert.AreEqual(3, game.Level);
+            game.NextLevel();    
             Assert.AreEqual(6, game.RowNumber);
             Assert.AreEqual(36, game.Animals.Count);
             Assert.IsFalse(game.GameOver);

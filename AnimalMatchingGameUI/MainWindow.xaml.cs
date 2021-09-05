@@ -17,9 +17,6 @@ using System.Windows.Threading;
 
 namespace AnimalMatchingGameUI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         Game game;
@@ -52,8 +49,8 @@ namespace AnimalMatchingGameUI
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            tenthOfSecondsElapsed++;
-            timeTextBlock.Text = (tenthOfSecondsElapsed/10F).ToString("0.0s");
+            tenthOfSecondsElapsed++;                           
+            timeTextBlock.Text = (tenthOfSecondsElapsed / 10F).ToString("0.0s");
             if (game.IsGameOver())
                 timer.Stop();
         }
@@ -68,7 +65,7 @@ namespace AnimalMatchingGameUI
 
         private void New_Game_Click(object sender, RoutedEventArgs e)
         {           
-            game.NewGame();
+            game.NewGame(4);
             Grid1.ColumnDefinitions.Clear();
             Grid1.RowDefinitions.Clear();          
             AddRow(game.RowNumber);
@@ -76,12 +73,7 @@ namespace AnimalMatchingGameUI
             AddColumn(game.RowNumber);
             SetUpTextBlocks();
             game.DisplayVisibleAnimals();
-
-            timer.Interval = TimeSpan.FromSeconds(0.1);
-            timer.Tick += Timer_Tick;
-            AddTimeTextBlock();
-            tenthOfSecondsElapsed = 0;
-            timer.Start();
+            AddTimeCount();
         }
 
         private void Next_Level_Click(object sender, RoutedEventArgs e)
@@ -94,12 +86,7 @@ namespace AnimalMatchingGameUI
             AddColumn(game.RowNumber);
             SetUpTextBlocks(); 
             game.DisplayVisibleAnimals();
-
-            AddTimeTextBlock();
-            timer.Interval = TimeSpan.FromSeconds(0.1);
-            timer.Tick += Timer_Tick;
-            tenthOfSecondsElapsed = 0;
-            timer.Start();          
+            AddTimeCount();
         }
         
         public void SetUpTextBlocks()
@@ -200,6 +187,8 @@ namespace AnimalMatchingGameUI
             nextLevelButton.Height = 30;
             nextLevelButton.FontSize = 18;
             nextLevelButton.Margin = new Thickness(2, 2, 2, 2);
+            if (game.RowNumber == 8)
+                nextLevelButton.Visibility = Visibility.Hidden;
             Grid.SetColumn(nextLevelButton, 2);
             Grid.SetRow(nextLevelButton, game.RowNumber + 1);
             Grid.SetColumnSpan(nextLevelButton, 2);
@@ -215,6 +204,14 @@ namespace AnimalMatchingGameUI
             Grid1.Children.Add(timeTextBlock);
             timeTextBlock.FontSize = 30;
             timeTextBlock.TextAlignment = TextAlignment.Center;
+        }
+        public void AddTimeCount()
+        {
+            AddTimeTextBlock();
+            timer.Interval = TimeSpan.FromSeconds(0.1);
+            timer.Tick += Timer_Tick;
+            tenthOfSecondsElapsed = 0;
+            timer.Start();
         }
     }
 }
